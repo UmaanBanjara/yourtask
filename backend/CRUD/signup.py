@@ -8,7 +8,7 @@ from sqlalchemy.future import select
 async def create_user (username : str , email : str , password : str):
     async with mysession() as session:
         try:
-            result = await session.execute(select(User).file(email=email))
+            result = await session.execute(select(User).filter_by(email=email))
             existing_user = result.scalar_one_or_none()
             if existing_user:
                 return {
