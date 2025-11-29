@@ -1,4 +1,4 @@
-from sqlalchemy import Column , String , PrimaryKeyConstraint , Integer , DateTime
+from sqlalchemy import Column , String , PrimaryKeyConstraint , Integer , DateTime , Boolean
 import datetime
 from backend.database.test_db import base
 
@@ -11,3 +11,4 @@ class User(base):
     email = Column(String , nullable=False)
     password = Column(String , nullable=False)
     create_at = Column(DateTime , default=datetime.datetime.utcnow)
+    verifed = Column(Boolean , default = False)
