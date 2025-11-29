@@ -23,7 +23,7 @@ async def verify_otp(code: str, userId: int):
                 return {
                     'message': 'OTP Expired'
                 }
-            await session.execute(update(User).where(User.id == userId).values(verifed = True)) #update the verified colum
+            await session.execute(update(User).where(User.id == userId).values(verified = True)) #update the verified colum
             await session.commit()
             
             return {
