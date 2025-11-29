@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from backend.routes.signup import router as signup_router
 from backend.routes.login import router as login_router
+from backend.routes.verifyotp import router as verifyotp_router
+from backend.routes.resendotp import router as resendotp_router
 
 
 app = FastAPI(title='YourTask')
@@ -16,6 +18,8 @@ app.add_middleware(
 
 app.include_router(signup_router , prefix='/auth' , tags = ['Authorization'])
 app.include_router(login_router , prefix='/auth' , tags = ['Authorization'])
+app.include_router(verifyotp_router , prefix = '/auth' , tags = ['Authorization'])
+app.include_router(resendotp_router , prefix = '/auth' , tags = ['Authorization'])
 
 #root endpoint
 @app.get('/')
