@@ -18,14 +18,15 @@ async def signup(user : Usercheck):
             user.email,
             user.password
         )
-        #if email already exits
-        if 'user' not in new_user:
-            raise HTTPException(status_code=400 , detail=new_user['message'])
         
+        if 'userId' not in new_user:
+            return {
+                'message' : new_user['message']
+            }
         return {
             'message' : new_user['message'],
-            'id' : new_user['user']['id'],
-            'username' : new_user['user']['username']
+            'userId' : new_user['userId'],
+            'email' : new_user['email']
         }
     except Exception as e:
         raise HTTPException(status_code=400 , detail=str(e))
