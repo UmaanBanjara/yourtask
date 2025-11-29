@@ -2,6 +2,11 @@ from backend.models.users import User
 from backend.utils.pass_hash import hash_pass
 from backend.database.test_db import mysession
 from sqlalchemy.future import select
+from backend.models.otp import OTP
+from backend.utils.smtp import send_mail
+from backend.CRUD.otp import store_otp
+import random
+import string
 
 
 #function to create a new user
@@ -32,12 +37,26 @@ async def create_user (username : str , email : str , password : str):
 
             #return info
 
-            return {
-                'message' : 'User create successfully',
-                'user' : {
-                    'id' : new_user.id,
-                    'username' : new_user.username
-                }
+
+            #generate otp
+            new_otp = "".join(random.choices(string.ascii_letters + string.digits , k = 8))
+            
+            #store the otp
+            await store_otp(
+                userId=new_user.id,
+                code = new_otp
+            )
+
+            await send_mail(
+                body = f"Your Verification code is : {new_otp}",
+                subject="Verify your account",
+                to = [new_user.email]
+            )
+
+            return{
+                'message' : 'User created successfully. OTP sent to your email',
+                'userId' : new_user.id,
+                'email' : new_user.email
             }
         
         except Exception as e:
