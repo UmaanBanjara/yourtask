@@ -1,6 +1,7 @@
 import asyncio
 from backend.database.test_db import base, engine
-from backend.models.users import User  # ✅ IMPORT your User model
+from backend.models.users import User 
+from backend.models.otp import OTP
 
 async def create_tables():
     async with engine.begin() as conn:
