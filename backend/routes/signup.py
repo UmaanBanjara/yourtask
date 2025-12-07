@@ -48,7 +48,7 @@ async def signup(user: Usercheck , request : Request):
     #apply rate limit
     allowed = await rate_limited(
         key=f"signup:{client_ip}", 
-        limit=3, #5 request per hour
+        limit=3, #3 request per hour
         time_window=60*60 #1 hour
 
     )
