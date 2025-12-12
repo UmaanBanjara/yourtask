@@ -115,3 +115,34 @@ async def update_customer_by_id(customerId : int , data : UpdateCustomerCheck):
             return{
                 'message' : 'Something went wrong'
             }
+
+# get all customers by pagination 
+async def get_all_customers(page: int, limit: int):
+    async with mysession() as session:
+        try:
+            skip = (page - 1) * limit
+
+            query = await session.execute(
+                select(Customer).offset(skip).limit(limit)
+            )
+            result = query.scalars().all()   
+
+            return {
+                "page": page,
+                "limit": limit,
+                "customers": [
+                    {
+                        "id": c.customer_id,
+                        "first_name": c.first_name,
+                        "last_name": c.last_name,
+                        "email": c.email
+                    }
+                    for c in result
+                ]
+            }
+
+        except Exception as e:
+            return {
+                "message": "Something went wrong",
+                "error": str(e)  
+            }
