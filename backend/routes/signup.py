@@ -54,7 +54,8 @@ async def signup(user: Usercheck , request : Request):
     )
 
     if not allowed:
-        raise HTTPException(status_code=401 , detail="Too many signup attempts. Try again later after sometime")
+        print(f"Rate limited for {client_ip} : {allowed}")
+        raise HTTPException(status_code=429 , detail="Too many signup attempts. Try again later after sometime")
     try:
         # Assuming you have a function to create the user
         new_user = await create_user(
