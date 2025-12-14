@@ -1,5 +1,4 @@
 import redis.asyncio as redis
-import time
 
 #redis config
 redis_client = redis.from_url("redis://localhost:6379" , encoding = "utf_8" , decode_responses = True)
