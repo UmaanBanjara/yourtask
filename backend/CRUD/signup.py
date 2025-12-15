@@ -7,6 +7,7 @@ from backend.utils.smtp import send_mail
 from backend.CRUD.otp import store_otp
 import random
 import string
+from backend.tasks.customer_tasks import send_welcome_message
 
 
 #function to create a new user
@@ -52,6 +53,8 @@ async def create_user (username : str , email : str , password : str):
                 subject="Verify your account",
                 to = [new_user.email]
             )
+
+            send_welcome_message.apply_async(args = [new_user.id , new_user.email],countdown = 15* 60)
 
             return{
                 'message' : 'User created successfully. OTP sent to your email',
